@@ -5,7 +5,7 @@
 
 int crc_test()
 {
-    char data[] = {0x74, 0x01, 0x55, 0xcc, 0x4d, 0x31, 0x2e, 0x30, 0x01, 0x01,
+	char data[] = {0x74, 0x01, 0x55, 0xcc, 0x4d, 0x31, 0x2e, 0x30, 0x01, 0x01,
   			   0x01, 0x01, 0x01, 0x00, 0x09, 0x00, 0x01, 0x01, 0x01, 0x00,
   			   0x00, 0x01, 0x30, 0x00, 0x30, 0x00, 0x30, 0x00, 0x30, 0x00,
   			   0x30, 0x00, 0x30, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00,
@@ -26,6 +26,8 @@ int crc_test()
   			   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   			   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
   			   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+	uint16_t res;
+
   	res = modbus_crc_calc(data, 208);
   	data[209] = res;
   	data[210] = res>>8;
@@ -34,28 +36,28 @@ int crc_test()
 
 int serial_test()
 {
-    PORT COM1;
-    char buff[1024] = {0};
-    int rcv_len = 0;
+	PORT COM1;
+	char buff[1024] = {0};
+	int rcv_len = 0;
 
-    printf("open com1\n");
-    COM1 = serial_init(1, 115200, 8, 1, 0);
+	printf("open com1\n");
+	COM1 = serial_init(5, 9600, 8, 1, 0);
 
-    while(1)
-    {
-        Serial_SendData(COM1, "hello guoguo\n", 13);
-        memset(buff, 0, 1024);
-        rcv_len = Serial_ReciveData(COM1, buff, 1024);
-        printf("rcv:%s\n", buff);
-        Sleep(1);
-    }
+	while(1)
+	{
+		Serial_SendData(COM1, "hello guoguo\n", 13);
+		memset(buff, 0, 1024);
+		rcv_len = Serial_ReciveData(COM1, buff, 1024);
+		printf("rcv:%s\n", buff);
+		Sleep(1000);
+	}
 }
 int main()
 {
-    serial_test();
-    while (1)
-    {
-    }
+	serial_test();
+	while (1)
+	{
+	}
 
-    return 0;
+	return 0;
 }
